@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+export SPACK_ROOT="${DIR}"
+export PATH=$SPACK_ROOT/bin:$PATH
+source $SPACK_ROOT/share/spack/setup-env.sh
+if [[ $PS1 ]] ; then
+	PS1='\[\033[01;36m\]\u@\h\[\033[01;35m\] \w \$\[\033[00m\] '
+fi
